@@ -29,39 +29,46 @@ class VideoEditorControlsWidget extends StatelessWidget {
 
     return Stack(
       children: [
-        player.widgets.headerToolbar ??
-            Column(
-              spacing: 10,
-              verticalDirection:
-                  alignTop ? VerticalDirection.down : VerticalDirection.up,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: toolbarPadding.top,
-                    left: toolbarPadding.left - style.trimBarHandlerButtonSize,
-                    right:
-                        toolbarPadding.right - style.trimBarHandlerButtonSize,
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 20,
+          child: player.widgets.headerToolbar ??
+              Column(
+                spacing: 10,
+                verticalDirection:
+                    alignTop ? VerticalDirection.down : VerticalDirection.up,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: toolbarPadding.top,
+                      left:
+                          toolbarPadding.left - style.trimBarHandlerButtonSize,
+                      right:
+                          toolbarPadding.right - style.trimBarHandlerButtonSize,
+                    ),
+                    child: const VideoEditorTrimBar(),
                   ),
-                  child: const VideoEditorTrimBar(),
-                ),
-                Padding(
-                  padding: toolbarPadding.copyWith(top: 0),
-                  child: LayoutBuilder(builder: (_, constraints) {
-                    return Row(
-                      spacing: constraints.maxWidth < 340 ? 6 : 12,
-                      children: [
-                        if (enablePlayButton) const VideoEditorPlayButton(),
-                        if (isAudioSupported) const VideoEditorMuteButton(),
-                        const Spacer(),
-                        if (constraints.maxWidth >= 300)
-                          const VideoEditorTrimInfoWidget(),
-                        const VideoEditorInfoBanner(),
-                      ],
-                    );
-                  }),
-                ),
-              ],
-            ),
+                  Padding(
+                    padding: toolbarPadding.copyWith(top: 0),
+                    child: LayoutBuilder(builder: (_, constraints) {
+                      return Row(
+                        spacing: constraints.maxWidth < 340 ? 6 : 12,
+                        children: [
+                          if (enablePlayButton) const VideoEditorPlayButton(),
+                          if (isAudioSupported) const VideoEditorMuteButton(),
+                          const Spacer(),
+                          if (constraints.maxWidth >= 300)
+                            const VideoEditorTrimInfoWidget(),
+                          const VideoEditorInfoBanner(),
+                        ],
+                      );
+                    }),
+                  ),
+                ],
+              ),
+        ),
         if (!enablePlayButton) const VideoEditorStateWidget(),
       ],
     );
